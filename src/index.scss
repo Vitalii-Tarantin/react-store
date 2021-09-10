@@ -79,12 +79,16 @@ h5 {
   cursor: pointer;
 }
 
-.search {
+.search-block{
   border: 1px solid #f3f3f3;
-
-  input {
-    border: 0;
-  }
+  border-radius: 10px;
+  padding: 0 15px;
+}
+input {
+  border: 0;
+  padding: 13px;
+  font-size: 16px;
+  width: 200px;
 }
 
 .overlay{
@@ -98,6 +102,8 @@ h5 {
 }
 
 .drawer {
+display: flex;
+flex-direction: column;
 position: absolute;
 width: 420px;
 height: 100%;
@@ -106,7 +112,8 @@ background: #FFFFFF;
 box-shadow: -10px 4px 24px rgba(0, 0, 0, 0.1);
 padding: 30px;
 
-.items {
+.item {
+  flex: 1;
   overflow: auto;
   margin-bottom: 40px;
 }
