@@ -1,3 +1,4 @@
+import React from 'react'
 import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
@@ -6,7 +7,7 @@ const arr = [
   { title: 'Мужские Кроссовки Nike Blazer Mid Suede',
   price: 7873, imageUrl: '/img/sneakers/1.jpg', },
   { title: 'Мужские Кроссовки Nike Air Max 270',
-  price: '9899 грн.', imageUrl: '/img/sneakers/2.jpg',  },
+  price: 9899, imageUrl: '/img/sneakers/2.jpg',  },
   { title: 'Мужские Кроссовки Nike Blazer Mid Suede',
   price: 7243, imageUrl: '/img/sneakers/3.jpg',  },
   { title: 'Кроссовки Puma X Aka Boku Future Rider',
@@ -14,8 +15,10 @@ const arr = [
 ];
 
 function App() {
+  
   return (
     <div className="wrapper clear">
+     
       <Drawer />
       <Header />
       <div className="content p-40">
