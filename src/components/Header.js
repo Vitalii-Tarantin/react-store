@@ -13,9 +13,11 @@ function Header(props) {
               <img width = {18} height = {18} src="/img/cart.svg" alt="Card" />
               <span>1205 UAH</span>
             </li>
+            <li className="mr-20 cu-p">
+              <img width = {18} height = {18} src="/img/heart.svg" alt ="Закладки"/>
+            </li>
             <li>
               <img width = {18} height = {18} src="/img/user.svg" alt ="Profile"/>
-  
             </li>
           </ul>
         </header>
