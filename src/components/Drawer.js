@@ -25,17 +25,17 @@ function Drawer({ onClose, items =[] }) {
       <div className="cartTotalBlock">
       <ul>
           <li>
-            <span>Итого:</span>
+            <span>Разом:</span>
             <div></div>
             <b> 14 800 грн.</b>
           </li>
           <li>
-            <span>Налог 5%:</span>
+            <span>Знижка 5%:</span>
             <div></div>
             <b> 2 400 грн.</b>
           </li>
         </ul>
-        <button className="greenButton">Оформить заказ <img src="/img/arrow.svg" alt="Arrow"/></button>
+        <button className="greenButton">Оформити замовлення <img src="/img/arrow.svg" alt="Arrow"/></button>
       </div>
        
       </div>

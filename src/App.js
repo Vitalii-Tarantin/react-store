@@ -1,4 +1,5 @@
 import React from 'react';
+import axios from 'axios'
 import Card from './components/Card';
 import Header from './components/Header';
 import Drawer from './components/Drawer';
@@ -6,6 +7,7 @@ import Drawer from './components/Drawer';
 function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
+  const [searchValue, setSearchValue] = React.useState();
   const [cartOpened, setCartOpened] = React.useState(false);
 
   React.useEffect(() => {
@@ -16,10 +18,17 @@ function App() {
     .then(json => {
       setItems(json)
     });
+    axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/items').then((res) => {
+      console.log(res.data);
+    });
   }, []); 
 
   const onAddToCart = (obj) => {
     setCartItems([ ...cartItems, obj]);
+  }
+
+  const onChangeSearchInput = (event) => {
+    setSearchValue(event.target.value);
   }
 
   return (
@@ -30,16 +39,31 @@ function App() {
       />
       <div className="content p-40">
         <div className="d-flex align-center justify-between mb-40">
-          <h1>Все кросcовки</h1>
+          <h1>{searchValue ? `Пошук по запиту: "${searchValue}" ` : 'Каталог кросівок'}</h1>
           <div className="search-block d-flex">
             <img src="/img/search.svg"  alt="Search" />
-            <input placeholder="Поиск..." />
+            {searchValue && (
+              <img
+                onClick={() => setSearchValue('')}
+                className="clear cu-p" 
+                src="/img/btn-remove.svg" 
+                alt="Clear" 
+              />
+            )}
+            <input 
+              onChange={ onChangeSearchInput } 
+              value={searchValue} 
+              placeholder="Пошук..." 
+            />
           </div>
         </div>
 
         <div className="d-flex flex-wrap">
-           {items.map((item) => (
+           {items
+           .filter((item) => item.title.toLowerCase().includes(searchValue))
+           .map((item, index) => (
               <Card 
+                key = {index}
                 title= {item.title}
                 price={item.price} 
                 imageUrl={item.imageUrl}
