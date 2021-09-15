@@ -20,14 +20,19 @@ function App() {
    axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/cart').then((res) => {
     setCartItems(res.data);
   });
-  axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/favorite').then((res) => {
+  axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/favorites').then((res) => {
       setFavorites(res.data);
   });
   }, []); 
 
   const onAddToCart = (obj) => {
-    axios.post('https://613f8e11e9d92a0017e17778.mockapi.io/cart', obj);
-    setCartItems([ ...cartItems, obj]);
+    if (cartItems.find((item) => Number(item.id) === Number(obj.id))) {
+      setCartItems(prev => prev.filter((item) => Number(item.id) !== Number(obj.id)));
+    } else {
+      axios.post('https://613f8e11e9d92a0017e17778.mockapi.io/cart', obj);
+      setCartItems((cartItems) => [ ...cartItems, obj]);
+    }
+    
   };
 
   const onRemoveItem = (id) => {
