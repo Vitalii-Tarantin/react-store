@@ -33,7 +33,7 @@ function Home ({
 
         <div className="d-flex flex-wrap">
            {items
-        //    .filter((item) => item.title.toLowerCase().includes(searchValue))
+           .filter((item) => item.title.toLowerCase().includes(searchValue.toLowerCase()))
            .map((item, index) => (
               <Card 
                 key = {index}
