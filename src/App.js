@@ -10,7 +10,7 @@ function App() {
   const [items, setItems] = React.useState([]);
   const [cartItems, setCartItems] = React.useState([]);
   const [favorites, setFavorites] = React.useState([]);
-  const [searchValue, setSearchValue] = React.useState();
+  const [searchValue, setSearchValue] = React.useState('');
   const [cartOpened, setCartOpened] = React.useState(false);
 
   React.useEffect(() => {
@@ -20,30 +20,41 @@ function App() {
    axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/cart').then((res) => {
     setCartItems(res.data);
   });
-  axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/favorites').then((res) => {
+  axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/favorite').then((res) => {
       setFavorites(res.data);
-  })
+  });
   }, []); 
 
   const onAddToCart = (obj) => {
     axios.post('https://613f8e11e9d92a0017e17778.mockapi.io/cart', obj);
     setCartItems([ ...cartItems, obj]);
-  }
+  };
 
   const onRemoveItem = (id) => {
     
     axios.delete(`https://613f8e11e9d92a0017e17778.mockapi.io/cart/${id}`);
-    setCartItems((prev) => prev.filter(item => item.id !== id));
-  }
+    setCartItems((cartItems) => cartItems.filter(item => item.id !== id));
+  };
 
-  const onAddToFavorite = (obj) => {
-    axios.post('https://613f8e11e9d92a0017e17778.mockapi.io/favorites', obj);
-    setFavorites([ ...favorites, obj]);
-  }
+  const onAddToFavorite = async (obj) => {
+    try { 
+      if (favorites.find((favObj) => favObj.id === obj.id)) {
+        axios.delete(`https://613f8e11e9d92a0017e17778.mockapi.io/favorites/${obj.id}`);
+        setFavorites((favorites) => favorites.filter((item) => item.id !== obj.id));
+      } else {
+       const { data } = await axios.post('https://613f8e11e9d92a0017e17778.mockapi.io/favorites', obj);
+        setFavorites((favorites) => [ ...favorites, data]);
+      }
+      
+    } catch (error) {
+      alert('ne ydalos dobavit v favoritu')
+    }
+    
+  };
 
   const onChangeSearchInput = (event) => {
     setSearchValue(event.target.value);
-  }
+  };
 
   return (
     <div className="wrapper clear">
@@ -58,14 +69,16 @@ function App() {
               searchValue={searchValue}
               setSearchValue={setSearchValue}
               onChangeSearchInput={onChangeSearchInput}
-              onAddToCart={onAddToCart}
               onAddToFavorite={onAddToFavorite}
+              onAddToCart={onAddToCart}
+              
             />
         </Route>
 
         <Route path="/favorites" exact>
           <Favorites 
             items={favorites}
+            onAddToFavorite={onAddToFavorite}
           />
         </Route>
 

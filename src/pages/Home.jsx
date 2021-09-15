@@ -1,11 +1,13 @@
 import Card from '../components/Card';
+
 function Home ({
     items,
     searchValue,
     setSearchValue,
     onChangeSearchInput,
-    onAddToCart,
     onAddToFavorite,
+    onAddToCart,
+    
 }) {
     return (
         <div className="content p-40">
@@ -35,11 +37,9 @@ function Home ({
            .map((item, index) => (
               <Card 
                 key = {index}
-                title= {item.title}
-                price={item.price} 
-                imageUrl={item.imageUrl}
-                onPlus={(obj) => onAddToCart(obj)}
                 onFavorite={(obj) => onAddToFavorite(obj)}
+                onPlus={(obj) => onAddToCart(obj)}
+                {...item}
               />
            ))}
         </div>
@@ -48,4 +48,4 @@ function Home ({
     );
 }
 
-export default Home
+export default Home;
