@@ -15,7 +15,7 @@ function Home({
     const filtredItems = items.filter((item) =>
       item.title.toLowerCase().includes(searchValue.toLowerCase()),
     );
-    return (isLoading ? [...Array(12)] : filtredItems).map((item, index) => (
+    return (isLoading ? [...Array(8)] : filtredItems).map((item, index) => (
       <Card
         key={index}
         onFavorite={(obj) => onAddToFavorite(obj)}
@@ -29,7 +29,7 @@ function Home({
   return (
     <div className="content p-40">
       <div className="d-flex align-center justify-between mb-40">
-        <h1>{searchValue ? `Пошук по запиту: "${searchValue}"` : 'Каталог Кросів'}</h1>
+        <h1>{searchValue ? `Пошук по запиту: "${searchValue}"` : 'Каталог кросів'}</h1>
         <div className="search-block d-flex">
           <img src="/img/search.svg" alt="Search" />
           {searchValue && (

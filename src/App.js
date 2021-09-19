@@ -18,7 +18,7 @@ function App() {
 
   React.useEffect(() => {
     async function fetchData() {
-      // TODO: Сделать try catch + Promise.all
+   
       const cartResponse = await axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/cart');
       const favoritesResponse = await axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/favorites');
       const itemsResponse = await axios.get('https://613f8e11e9d92a0017e17778.mockapi.io/items');

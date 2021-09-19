@@ -52,13 +52,13 @@ function Card({
           <h5>{title}</h5>
           <div className="d-flex justify-between align-center">
             <div className="d-flex flex-column">
-              <span>Цiна:</span>
-              <b>{price} грн.</b>
+              <span>Ціна:</span>
+              <b>{price} грн. </b>
             </div>
             <img
               className={styles.plus}
               onClick={onClickPlus}
-              src={isItemAdded(id) ? '/img/btn-checked.svg' : '/img/btn-plus.svg'}
+              src={isItemAdded(id) ? '/img/btn-checked.svg' : '../img/btn-plus.svg'}
               alt="Plus"
             />
           </div>

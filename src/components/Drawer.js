@@ -15,7 +15,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
   const onClickOrder = async () => {
     try {
       setIsLoading(true);
-      const { data } = await axios.post('ttps://613f8e11e9d92a0017e17778.mockapi.io/orders', {
+      const { data } = await axios.post('https://613f8e11e9d92a0017e17778.mockapi.io/orders', {
         items: cartItems,
       });
       setOrderId(data.id);
@@ -24,7 +24,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
 
       for (let i = 0; i < cartItems.length; i++) {
         const item = cartItems[i];
-        await axios.delete('ttps://613f8e11e9d92a0017e17778.mockapi.io/cart/' + item.id);
+        await axios.delete(`https://613f8e11e9d92a0017e17778.mockapi.io/cart/${item.id}`);
         await delay(1000);
       }
     } catch (error) {
@@ -51,7 +51,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
 
                   <div className="mr-20 flex">
                     <p className="mb-5">{obj.title}</p>
-                    <b>{obj.price} грн.</b>
+                    <b>{obj.price} руб.</b>
                   </div>
                   <img
                     onClick={() => onRemove(obj.id)}
@@ -65,24 +65,24 @@ function Drawer({ onClose, onRemove, items = [] }) {
             <div className="cartTotalBlock">
               <ul>
                 <li>
-                  <span>Загалом:</span>
+                  <span>Загалом::</span>
                   <div></div>
                   <b>21 498 грн. </b>
                 </li>
                 <li>
                   <span>Зніжка 5%:</span>
                   <div></div>
-                  <b>1074 грн. </b>
+                  <b>1074 грн.</b>
                 </li>
               </ul>
               <button disabled={isLoading} onClick={onClickOrder} className="greenButton">
-                Оформити замовлення <img src="/img/arrow.svg" alt="Arrow" />
+              Оформити замовлення<img src="/img/arrow.svg" alt="Arrow" />
               </button>
             </div>
           </div>
         ) : (
           <Info
-            title={isOrderComplete ? 'Замовлення оформленно!' : 'Козрина порожня'}
+            title={isOrderComplete ? 'Заказ оформлен!' : 'Корзина пустая'}
             description={
               isOrderComplete
                 ? `Ваше замовленя #${orderId} скоро буде переданий кур'єрській доставці`
