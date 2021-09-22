@@ -1,18 +1,18 @@
 import React from 'react';
 import axios from 'axios';
 
-import Info from './Info';
-import { useCart } from '../hooks/useCart'
+import Info from '../Info';
+import { useCart } from '../../hooks/useCart';
 
+import styles from './Drawer.module.scss';
 
 const delay = (ms) => new Promise((resolve) => setTimeout(resolve, ms));
 
-function Drawer({ onClose, onRemove, items = [] }) {
-  const { cartItems, setCartItems, totalPrice} = useCart();
+function Drawer({ onClose, onRemove, items = [], opened }) {
+  const { cartItems, setCartItems, totalPrice } = useCart();
   const [orderId, setOrderId] = React.useState(null);
   const [isOrderComplete, setIsOrderComplete] = React.useState(false);
   const [isLoading, setIsLoading] = React.useState(false);
-  
 
   const onClickOrder = async () => {
     try {
@@ -26,7 +26,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
 
       for (let i = 0; i < cartItems.length; i++) {
         const item = cartItems[i];
-        await axios.delete(`https://613f8e11e9d92a0017e17778.mockapi.io/cart/${item.id}`);
+        await axios.delete('https://613f8e11e9d92a0017e17778.mockapi.io/cart/' + item.id);
         await delay(1000);
       }
     } catch (error) {
@@ -36,15 +36,15 @@ function Drawer({ onClose, onRemove, items = [] }) {
   };
 
   return (
-    <div className="overlay">
-      <div className="drawer">
+    <div className={`${styles.overlay} ${opened ? styles.overlayVisible : ''}`}>
+      <div className={styles.drawer}>
         <h2 className="d-flex justify-between mb-30">
-          Корзина <img onClick={onClose} className="cu-p" src="/img/btn-remove.svg" alt="Close" />
+          Корзина <img onClick={onClose} className="cu-p" src="img/btn-remove.svg" alt="Close" />
         </h2>
 
         {items.length > 0 ? (
           <div className="d-flex flex-column flex">
-            <div className="items">
+            <div className="items flex">
               {items.map((obj) => (
                 <div key={obj.id} className="cartItem d-flex align-center mb-20">
                   <div
@@ -53,7 +53,7 @@ function Drawer({ onClose, onRemove, items = [] }) {
 
                   <div className="mr-20 flex">
                     <p className="mb-5">{obj.title}</p>
-                    <b>{obj.price} грн.</b>
+                    <b>{obj.price} руб.</b>
                   </div>
                   <img
                     onClick={() => onRemove(obj.id)}
@@ -67,28 +67,33 @@ function Drawer({ onClose, onRemove, items = [] }) {
             <div className="cartTotalBlock">
               <ul>
                 <li>
-                  <span>Загалом::</span>
+                  <span>Ціна:</span>
                   <div></div>
-                  <b> { totalPrice } грн. </b>
+                  <b>{totalPrice} грн. </b>
                 </li>
                 <li>
                   <span>Знижка 5%:</span>
                   <div></div>
-                  <b> { (totalPrice / 100) * 5 } грн.</b>
+                  <b>{Math.round((totalPrice / 100) * 5)} грн. </b>
+                </li>
+                <li>
+                  <span>Сума до сплати:</span>
+                  <div></div>
+                  <b>{totalPrice - Math.round((totalPrice / 100) * 5)} грн. </b>
                 </li>
               </ul>
               <button disabled={isLoading} onClick={onClickOrder} className="greenButton">
-              Оформити замовлення<img src="/img/arrow.svg" alt="Arrow" />
+                Оформить заказ <img src="img/arrow.svg" alt="Arrow" />
               </button>
             </div>
           </div>
         ) : (
           <Info
-            title={isOrderComplete ? 'Заказ оформлен!' : 'Корзина пустая'}
+            title={isOrderComplete ? 'Замовлення оформлено!' : 'Кошик порожній'}
             description={
               isOrderComplete
-                ? `Ваше замовленя #${orderId} скоро буде переданий кур'єрській доставці`
-                : 'Додайте хоча б одну пару кросівок, щоб зробити замовлення.'
+                ?  `Ваше замовлення #${orderId} скоро буде передано кур'єрській доставці`
+               : 'Додайте хоча б одну пару кросів, щоб зробити замовлення.'
             }
             image={isOrderComplete ? 'img/complete-order.jpg' : 'img/empty-cart.jpg'}
           />
